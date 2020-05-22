@@ -13,6 +13,8 @@ passkey85.elf tiny85/%.o: TARGET = -mmcu=attiny85 -DF_CPU=16000000L
 tiny84/%.o: CFLAGS += -DTINY84 -I tiny84
 tiny85/%.o: CFLAGS += -DTINY85 -I tiny85
 
+%/passkey.o: CFLAGS += -DPASSWORD='"$(PASSWORD)"'
+
 USB = usbdrv.o usbdrvasm.o oddebug.o
 PASSKEY = passkey.o mycore.o $(USB)
 

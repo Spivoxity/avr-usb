@@ -237,7 +237,7 @@ int main(void) {
      hardwareInit();
      sei();
 
-     decode("Password\r");
+     decode(PASSWORD "\r");
 
      while (1) {
           usbPoll();
