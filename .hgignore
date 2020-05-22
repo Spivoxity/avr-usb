@@ -1,0 +1,21 @@
+syntax: glob
+passkey/passkey84.elf
+passkey/passkey84.hex
+passkey/passkey85.elf
+passkey/passkey85.hex
+passkey/tiny84/mycore.o
+passkey/tiny84/oddebug.o
+passkey/tiny84/passkey.o
+passkey/tiny84/usbdrv.o
+passkey/tiny84/usbdrvasm.o
+passkey/tiny85/mycore.o
+passkey/tiny85/oddebug.o
+passkey/tiny85/passkey.o
+passkey/tiny85/usbdrv.o
+passkey/tiny85/usbdrvasm.o
+usbtiny/oddebug.o
+usbtiny/usbdrv.o
+usbtiny/usbdrvasm.o
+usbtiny/usbtiny.elf
+usbtiny/usbtiny.hex
+usbtiny/usbtiny.o

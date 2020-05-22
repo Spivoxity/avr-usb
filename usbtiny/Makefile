@@ -8,7 +8,7 @@ CGFLAGS = -fno-exceptions -ffunction-sections -fdata-sections
 DEFINES = -DF_CPU=12000000L
 INCLUDES = -I . -I ../lib -I ../usbdrv
 CFLAGS = -c -g -Os -Wall -mmcu=$(MCU) $(CGFLAGS) $(DEFINES) $(INCLUDES)
-VPATH = ../lib ../lib/usbdrv
+VPATH = ../usbdrv
 
 usbtiny.elf: usbtiny.o usbdrv.o oddebug.o usbdrvasm.o
 
