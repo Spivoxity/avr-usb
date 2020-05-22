@@ -1,0 +1,40 @@
+# -*-Makefile-*-
+
+%.elf :
+	avr-gcc -Os -Wl,--gc-sections -mmcu=$(MCU) -o $@ $^ -L. -lm
+	avr-size --format=avr --mcu=$(MCU) $@
+
+%.o : %.c
+	avr-gcc $(CFLAGS) -c $< -o $@
+
+%.o : %.cpp
+	avr-g++ $(CFLAGS) -c $< -o $@
+
+%.o : %.S
+	avr-gcc $(CFLAGS) -x assembler-with-cpp -c $< -o $@
+
+%.hex : %.elf
+	avr-objcopy -O ihex -R .eeprom $< $@
+
+# Possible ISP definitions
+ARD_BOOT = -carduino -b115200 -P/dev/ttyACM0 
+ARD_ISP = -cstk500v1 -b19200 -P/dev/ttyACM0 
+TRINKET = -cusbtiny
+USBTINY = -cusbtiny
+
+AVRDUDE = avrdude -p$(MCU) $(ISP)
+
+upload-% : %.hex force
+	$(AVRDUDE) -Uflash:w:$<:i
+
+read-fuses: force
+	$(AVRDUDE) -q -q -U lfuse:r:-:h -U hfuse:r:-:h -U efuse:r:-:h
+
+#set-fuses: force
+#	$(AVRDUDE) -U lfuse:w:$(LFUSE):m -U hfuse:w:$(HFUSE):m -U efuse:w:$(EFUSE):m 
+
+clean :: force
+	rm -f *.o *.elf *.hex
+
+force :
+
