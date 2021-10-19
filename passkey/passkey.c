@@ -8,19 +8,26 @@
 #include "mylib.h"
 #include "usbdrv.h"
 
+#ifdef TINY84
+#define led_init()  DDRA |= 0x4;
+#define led_on()  PORTA |= 0x4
+#define led_off()  PORTA &= ~0x4
+#define but_pressed()  ((PINA & 0x2) == 0)
+#endif
+
+#ifdef TINY85
+#define led_on()  PORTB |= 0x8
+#define led_init()  DDRB |= 0x8;
+#define led_off()  PORTB &= ~0x8
+#define but_pressed()  ((PINB & 0x1) == 0)
+#endif
+
 static void hardwareInit(void) {
      usbInit();
      usbDeviceDisconnect();
      delay_ms(250);
      usbDeviceConnect();
-
-#ifdef TINY84
-     DDRA |= 0x4; // LED as output
-#endif
-
-#ifdef TINY85
-     DDRB |= 0x8; // LED as output
-#endif
+     led_init();
 }
 
 #ifdef TINY85
@@ -247,30 +254,16 @@ int main(void) {
                     usbSetInterrupt(reportBuffer, sizeof(reportBuffer));
                }
           } else {
+               led_off();
                next = 0;
-
-#ifdef TINY84
-               PORTA &= ~0x4;
-               if ((PINA & 0x2) == 0) next = 1;
-#endif
-
-#ifdef TINY85
-               PORTB &= ~0x8;
-               if ((PINB & 0x1) == 0) next = 1;
-#endif
+               if (but_pressed()) next = 1;
 
                if (!next)
                     butstate = 0;
                else if (!butstate) {
                     butstate = 1;
                     index = 0;
-#ifdef TINY84
-                    PORTA |= 0x4;
-#endif
-
-#ifdef TINY85
-                    PORTB |= 0x8;
-#endif
+                    led_on();
                }
           }
      }

@@ -10,7 +10,7 @@ INCLUDES = -I . -I ../lib -I ../usbdrv
 CFLAGS = -c -g -Os -Wall -mmcu=$(MCU) $(CGFLAGS) $(DEFINES) $(INCLUDES)
 VPATH = ../usbdrv
 
-usbtiny.elf: usbtiny.o usbdrv.o oddebug.o usbdrvasm.o
+usbtiny.elf: usbtiny.o usbdrv.o usbdrvasm.o
 
 usbdrv.o: usbconfig.h
 

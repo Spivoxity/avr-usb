@@ -1,25 +1,23 @@
 # Test programs for ATtiny84
 
-all: passkey84.hex passkey85.hex
+all: jiggler84.hex jiggler85.hex
 
 CGFLAGS = -fno-exceptions -ffunction-sections -fdata-sections 
 INCLUDES = -I ../lib -I ../usbdrv -I .
 CFLAGS = -g -Os -Wall $(CGFLAGS) $(INCLUDES) $(TARGET)
 VPATH = ../usbdrv ../lib
 
-passkey84.elf tiny84/%.o: TARGET = -mmcu=attiny84
-passkey85.elf tiny85/%.o: TARGET = -mmcu=attiny85
+jiggler84.elf tiny84/%.o: TARGET = -mmcu=attiny84
+jiggler85.elf tiny85/%.o: TARGET = -mmcu=attiny85
 
 tiny84/%.o: CFLAGS += -DTINY84 -DF_CPU=12000000L -I tiny84
 tiny85/%.o: CFLAGS += -DTINY85 -DF_CPU=16000000L -I tiny85
 
-%/passkey.o: CFLAGS += -DPASSWORD='"$(PASSWORD)"'
-
 USB = usbdrv.o usbdrvasm.o
-PASSKEY = passkey.o mycore.o $(USB)
+JIGGLER = jiggler.o mycore.o $(USB)
 
-passkey84.elf: $(PASSKEY:%=tiny84/%)
-passkey85.elf: $(PASSKEY:%=tiny85/%)
+jiggler84.elf: $(JIGGLER:%=tiny84/%)
+jiggler85.elf: $(JIGGLER:%=tiny85/%)
 
 %.elf:
 	avr-gcc $(CFLAGS) -Wl,--gc-sections -o $@ $^ 
@@ -41,9 +39,6 @@ tiny85/%.o: %.S
 	avr-objcopy -O ihex -R .eeprom $< $@
 
 clean: force
-	rm -f tiny*/*.o passkey8?.elf passkey8?.hex
+	rm -f tiny*/*.o jiggler8?.elf jiggler8?.hex
 
 force:
-
-###
-

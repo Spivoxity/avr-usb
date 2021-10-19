@@ -19,3 +19,6 @@ usbtiny/usbdrvasm.o
 usbtiny/usbtiny.elf
 usbtiny/usbtiny.hex
 usbtiny/usbtiny.o
+*.o
+*.elf
+*.hex
